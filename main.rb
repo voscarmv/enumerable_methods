@@ -87,9 +87,14 @@ module Enumerable
     end
   end
 
-  def my_map
-    if block_given?
-      output = Array.new
+  def my_map(proc = nil)
+    output = Array.new
+    if proc.class == Proc
+      for i in 0..self.length-1 do
+        output << proc.call(self[i])
+      end
+      output
+    elsif block_given?
       for i in 0..self.length-1 do
         output << yield(self[i])
       end
@@ -134,3 +139,5 @@ end
 
 [0, 0, 0, 1, 0, 2].my_map 
 [0, 0, 0, 1, 0, 2].my_map {|i| i > 0}
+myproc = Proc.new {|i| i > 1}
+[0, 0, 0, 1, 0, 2, 3, 4].my_map(myproc)
