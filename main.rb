@@ -32,11 +32,28 @@ module Enumerable
     end
   end
 
+  def my_each_check
+    if block_given?
+      for i in 0..self.length-1 do
+        return false unless yield(self[i])
+      end
+      true
+    else
+      nil
+    end
+  end
+
   def my_all?(regex = nil)
     if regex.class == Regexp
-      puts "There is regex"
+      self.my_each_check {|i| regex === i}
+    elsif regex.class == Class
+      self.my_each_check {|i| i.is_a? regex}
     else
-      self.to_enum
+      if block_given?
+        self.my_each_check{|i| yield(i)}
+      else
+        self.my_each_check{|i| i == false || i == nil}
+      end
     end
   end
 
@@ -52,7 +69,11 @@ end
 [0, 0, 0, 1, 0, 2].my_select 
 [0, 0, 0, 1, 0, 2].my_select {|i| i > 0}
 
-[1, 2, 3].my_all?(/d/)
-[1, 2, 3].my_all?
-[1, 2, 3].my_all?("ss")
-
+["oscar", "apple", "dark"].my_all?(/a/)
+["oscar", "apple", "dark"].my_all?(/b/)
+[7, 1, 2, 3, 4, 5].my_all? {|x| x > 9}
+[7, 1, 2, 3, 4, 5].my_all? {|x| x > 0}
+[1, 2i, 3.14].my_all?(Numeric) 
+[1, 2, 3].my_all?(Integer)
+[1, "abc", 9].my_all?(Integer)
+[9, "abc", 0].my_all?(Integer)
