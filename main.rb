@@ -70,6 +70,23 @@ module Enumerable
     end
   end
 
+  def my_count(obj = nil)
+    output = 0
+    if obj != nil
+      for i in 0..self.length-1 do
+        output += 1 if self[i] == obj
+      end
+      output
+    elsif block_given?
+      for i in 0..self.length-1 do
+        output += 1 if yield(self[i])
+      end
+      output
+    else
+      self.length
+    end
+  end
+
   def my_map
     if block_given?
       output = Array.new
@@ -108,6 +125,12 @@ end
 [1, 2i, 3.14].my_none?(Numeric) 
 [1, 2, 3].my_none?(Integer)
 [9, "abc", 0].my_none?(Integer)
+
+[0, 2, 3, 4, 5, 1, 2, 2, 3].my_count(1)
+[0, 2, 3, 4, 5, 1, 2, 2, 3].my_count(2)
+[0, 2, 3, 4, 5, 1, 2, 2, 3].my_count(3)
+[0, 2, 3, 4, 5, 1, 2, 2, 3].my_count {|i| i > 2}
+[0, 2, 3, 4, 5, 1, 2, 2, 3].my_count {|i| i < 2}
 
 [0, 0, 0, 1, 0, 2].my_map 
 [0, 0, 0, 1, 0, 2].my_map {|i| i > 0}
