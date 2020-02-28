@@ -149,12 +149,25 @@ end
 [1, 2, 3].my_each
 [4, 5, 6].my_each {|x| puts x+2}
 
+[1, 2, 3].each
+[4, 5, 6].each {|x| puts x+2}
+
+
 [7, 9, 10].my_each_with_index 
 [7, 9, 10].my_each_with_index {|x| puts "#{x*x}"}
 [7, 9, 10].my_each_with_index {|x,y| puts "#{x+y} #{y}"}
 
+[7, 9, 10].each_with_index 
+[7, 9, 10].each_with_index {|x| puts "#{x*x}"}
+[7, 9, 10].each_with_index {|x,y| puts "#{x+y} #{y}"}
+
+
 [0, 0, 0, 1, 0, 2].my_select 
 [0, 0, 0, 1, 0, 2].my_select {|i| i > 0}
+
+[0, 0, 0, 1, 0, 2].select 
+[0, 0, 0, 1, 0, 2].select {|i| i > 0}
+
 
 ["oscar", "apple", "dark"].my_all?(/a/)
 ["oscar", "apple", "dark"].my_all?(/b/)
@@ -164,6 +177,15 @@ end
 [1, 2, 3].my_all?(Integer)
 [9, "abc", 0].my_all?(Integer)
 
+["oscar", "apple", "dark"].all?(/a/)
+["oscar", "apple", "dark"].all?(/b/)
+[7, 1, 2, 3, 4, 5].all? {|x| x > 9}
+[7, 1, 2, 3, 4, 5].all? {|x| x > 0}
+[1, 2i, 3.14].all?(Numeric) 
+[1, 2, 3].all?(Integer)
+[9, "abc", 0].all?(Integer)
+
+
 ["oscar", "apple", "dark"].my_none?(/a/)
 ["oscar", "apple", "dark"].my_none?(/b/)
 [7, 1, 2, 3, 4, 5].my_none? {|x| x > 9}
@@ -172,19 +194,47 @@ end
 [1, 2, 3].my_none?(Integer)
 [9, "abc", 0].my_none?(Integer)
 
+["oscar", "apple", "dark"].none?(/a/)
+["oscar", "apple", "dark"].none?(/b/)
+[7, 1, 2, 3, 4, 5].none? {|x| x > 9}
+[7, 1, 2, 3, 4, 5].none? {|x| x > 0}
+[1, 2i, 3.14].none?(Numeric) 
+[1, 2, 3].none?(Integer)
+[9, "abc", 0].none?(Integer)
+
+
 [0, 2, 3, 4, 5, 1, 2, 2, 3].my_count(1)
 [0, 2, 3, 4, 5, 1, 2, 2, 3].my_count(2)
 [0, 2, 3, 4, 5, 1, 2, 2, 3].my_count(3)
 [0, 2, 3, 4, 5, 1, 2, 2, 3].my_count {|i| i > 2}
 [0, 2, 3, 4, 5, 1, 2, 2, 3].my_count {|i| i < 2}
 
+[0, 2, 3, 4, 5, 1, 2, 2, 3].count(1)
+[0, 2, 3, 4, 5, 1, 2, 2, 3].count(2)
+[0, 2, 3, 4, 5, 1, 2, 2, 3].count(3)
+[0, 2, 3, 4, 5, 1, 2, 2, 3].count {|i| i > 2}
+[0, 2, 3, 4, 5, 1, 2, 2, 3].count {|i| i < 2}
+
+
 [0, 0, 0, 1, 0, 2].my_map 
 [0, 0, 0, 1, 0, 2].my_map {|i| i > 0}
 myproc = Proc.new {|i| i > 1}
 [0, 0, 0, 1, 0, 2, 3, 4].my_map(myproc)
 
+[0, 0, 0, 1, 0, 2].map 
+[0, 0, 0, 1, 0, 2].map {|i| i > 0}
+myproc = Proc.new {|i| i > 1}
+# [0, 0, 0, 1, 0, 2, 3, 4].map(myproc)
+
+
 [1, 2, 3, 4, 5].my_inject(:+)
 [1, 2, 3, 4, 5].my_inject(10, :+)
 [1, 2, 3, 4, 5].my_inject(10) {|x, y| x + y}
 
+[1, 2, 3, 4, 5].inject(:+)
+[1, 2, 3, 4, 5].inject(10, :+)
+[1, 2, 3, 4, 5].inject(10) {|x, y| x + y}
+
+
 [2, 4, 5].multiply_els
+[2, 4, 5].inject(:*)
