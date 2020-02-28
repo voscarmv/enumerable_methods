@@ -103,6 +103,47 @@ module Enumerable
       self.to_enum
     end
   end
+
+  def my_inject(first = nil, second = nil)
+    accum = self[0]
+    if first.class == Symbol
+      for i in 1..self.length-1 do
+        accum = accum.send(first, self[i])
+      end
+      accum
+    elsif first.class != nil && second == nil
+      accum = first
+      if block_given?
+        for i in 0..self.length-1 do
+          accum = yield(accum,self[i])
+        end
+        accum
+      else
+        for i in 0..self.length-1 do
+          accum = accum.send(first, self[i])
+        end
+        accum
+      end
+    elsif first.class != nil && second.class == Symbol
+      accum = first
+      for i in 0..self.length-1 do
+        accum = accum.send(second, self[i])
+      end
+      accum
+    elsif first == nil && second == nil
+      if block_given?
+        for i in 1..self.length-1 do
+          accum = yield(accum, self[i])
+        end
+        accum
+      end
+    end
+  end
+
+  def multiply_els
+    self.my_inject(:*)
+  end
+
 end
 
 [1, 2, 3].my_each
@@ -141,3 +182,9 @@ end
 [0, 0, 0, 1, 0, 2].my_map {|i| i > 0}
 myproc = Proc.new {|i| i > 1}
 [0, 0, 0, 1, 0, 2, 3, 4].my_map(myproc)
+
+[1, 2, 3, 4, 5].my_inject(:+)
+[1, 2, 3, 4, 5].my_inject(10, :+)
+[1, 2, 3, 4, 5].my_inject(10) {|x, y| x + y}
+
+[2, 4, 5].multiply_els
