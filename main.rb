@@ -31,10 +31,19 @@ module Enumerable
       self.to_enum
     end
   end
+
+  def my_all?(regex = nil)
+    if regex.class == Regexp
+      puts "There is regex"
+    else
+      self.to_enum
+    end
+  end
+
 end
 
 [1, 2, 3].my_each
-[4, 5, 6].my_each! {|x| puts x+2}
+[4, 5, 6].my_each {|x| puts x+2}
 
 [7, 9, 10].my_each_with_index 
 [7, 9, 10].my_each_with_index {|x| puts "#{x*x}"}
@@ -42,4 +51,8 @@ end
 
 [0, 0, 0, 1, 0, 2].my_select 
 [0, 0, 0, 1, 0, 2].my_select {|i| i > 0}
+
+[1, 2, 3].my_all?(/d/)
+[1, 2, 3].my_all?
+[1, 2, 3].my_all?("ss")
 
