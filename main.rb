@@ -70,6 +70,17 @@ module Enumerable
     end
   end
 
+  def my_map
+    if block_given?
+      output = Array.new
+      for i in 0..self.length-1 do
+        output << yield(self[i])
+      end
+      output
+    else
+      self.to_enum
+    end
+  end
 end
 
 [1, 2, 3].my_each
@@ -97,3 +108,6 @@ end
 [1, 2i, 3.14].my_none?(Numeric) 
 [1, 2, 3].my_none?(Integer)
 [9, "abc", 0].my_none?(Integer)
+
+[0, 0, 0, 1, 0, 2].my_map 
+[0, 0, 0, 1, 0, 2].my_map {|i| i > 0}
