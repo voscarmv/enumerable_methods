@@ -38,11 +38,12 @@ module Enumerable
   end
 
   def my_each_with_index
-    arr = make_array(self)
     if block_given?
-      [0..arr.length - 1].my_each { |i| yield(arr[i], i) }
+      (0..length - 1).my_each do |i|
+        yield(self[i], i)
+      end
     else
-      arr.to_enum
+      to_enum
     end
   end
 
@@ -220,3 +221,12 @@ myproc = proc { |i| i > 2 }
 [0, 0, 0, 1, 0, 2, 3, 4].my_map(myproc)
 
 [false, false, nil].my_any?
+
+array = Array.new(100) { rand(0...9) }
+my_each_output = ' '
+block = proc { |num, idx| my_each_output += "Num: #{num}, idx: #{idx}\n" }
+array.each_with_index(&block)
+each_output = my_each_output.dup
+my_each_output = ' '
+array.my_each_with_index(&block)
+my_each_output == each_output # true
