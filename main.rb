@@ -230,5 +230,3 @@ each_output = my_each_output.dup
 my_each_output = ' '
 array.my_each_with_index(&block)
 my_each_output == each_output # true
-=======
-puts 'Hello, World!'
