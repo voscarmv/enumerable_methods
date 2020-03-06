@@ -19,6 +19,7 @@ module Enumerable
         yield(arr[i])
         i += 1
       end
+      self
     else
       arr.to_enum
     end
