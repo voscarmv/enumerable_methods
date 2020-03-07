@@ -1,13 +1,13 @@
 #spec/enumerable_spec.rb
 require './main.rb'
 
-def with_captured_stdout
-  original_stdout = $stdout
+def capture_stdout
+  original = $stdout
   $stdout = StringIO.new
   yield
   $stdout.string
 ensure
-  $stdout = original_stdout
+  $stdout = original
 end
 
 RSpec.describe Enumerable do
@@ -16,7 +16,7 @@ RSpec.describe Enumerable do
     let(:original_method_1) { Proc.new{a.each {|x| print x, " -- " }} }
     let(:my_method_1) { Proc.new{a.my_each {|x| print x, " -- " }} }
     it 'standard output of #my_each with code block' do
-      original_output = with_captured_stdout(&original_method_1)
+      original_output = capture_stdout(&original_method_1)
       expect(&my_method_1).to output(original_output).to_stdout
     end
     it 'return value of #my_each with code block' do
