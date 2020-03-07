@@ -22,7 +22,7 @@ RSpec.describe Enumerable do
     it 'return value of #my_each with code block' do
       expect(my_method_1.call).to eql(original_method_1.call)
     end
-    # it 'using #my_each without a code block' do
+    # it 'standard output of #my_each without code block' do
 
     # end
   end
