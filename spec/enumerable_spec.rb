@@ -311,24 +311,35 @@ RSpec.describe Enumerable do
     let(:b) { [1, 2, 3, 4, 5] }
     let(:original_method_2) do
       proc do
-        b.select { |num| num.even? }
+        b.select(&:even?)
       end
     end
     let(:my_method_2) do
       proc do
-        b.my_select { |num| num.even? }
+        b.my_select(&:even?)
       end
     end
 
     let(:c) { %i[foo bar] }
     let(:original_method_3) do
       proc do
-        c.select { |x| x == :foo } 
+        c.select { |x| x == :foo }
       end
     end
     let(:my_method_3) do
       proc do
-        c.my_select { |x| x == :foo } 
+        c.my_select { |x| x == :foo }
+      end
+    end
+
+    let(:original_method_4) do
+      proc do
+        b.select
+      end
+    end
+    let(:my_method_4) do
+      proc do
+        b.my_select
       end
     end
 
@@ -356,6 +367,15 @@ RSpec.describe Enumerable do
     end
 
     it 'return value of #my_select with symbol array' do
+      expect(my_method_3.call).to eql(original_method_3.call)
+    end
+
+    it 'standard output with #my_select without block' do
+      original_output = capture_stdout(&original_method_3)
+      expect(&my_method_3).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_select without block' do
       expect(my_method_3.call).to eql(original_method_3.call)
     end
   end
