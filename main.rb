@@ -45,7 +45,7 @@ module Enumerable
       end
       self
     else
-      to_enum
+      to_enum :each_with_index
     end
   end
 
@@ -144,7 +144,7 @@ module Enumerable
       arr.my_each { |i| output << yield(i) }
       output
     else
-      arr.to_enum
+      self.to_enum
     end
   end
 

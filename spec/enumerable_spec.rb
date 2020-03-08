@@ -164,6 +164,17 @@ RSpec.describe Enumerable do
       end
     end
 
+    let(:original_method_2) do
+      proc do
+        a.each_with_index 
+      end
+    end
+    let(:my_method_2) do
+      proc do
+        a.my_each_with_index 
+      end
+    end
+    
     it 'standard output with #my_each_with_index' do
       original_output = capture_stdout(&original_method_1)
       expect(&my_method_1).to output(original_output).to_stdout
@@ -184,6 +195,16 @@ RSpec.describe Enumerable do
       end
       expect(my_hash).to eql(original_hash)
     end
+
+    it 'standard output with #my_each_with_index with no block' do
+      original_output = capture_stdout(&original_method_2)
+      expect(&my_method_2).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_each_with_index with no block' do
+      expect(my_method_2.call).to eql(original_method_2.call)
+    end
+
   end
   describe '#my_any' do
     let(:a) { %w[ant bear cat] }
@@ -590,5 +611,70 @@ RSpec.describe Enumerable do
     it 'return value of #my_count with code block' do
       expect(my_method_3.call).to eql(original_method_3.call)
     end
+  end
+  describe '#my_map' do
+  let(:a) { (1..4) }
+  let(:original_method_1) do
+    proc do
+      a.map { |i| i*i }
+    end
+  end
+  let(:my_method_1) do
+    proc do
+      a.my_map { |i| i*i }
+    end
+  end
+
+  let(:original_method_2) do
+    proc do
+      a.map { "cat"  }
+    end
+  end
+  let(:my_method_2) do
+    proc do
+      a.my_map { "cat"  }
+    end
+  end
+
+  let(:original_method_3) do
+    proc do
+      a.map
+    end
+  end
+  let(:my_method_3) do
+    proc do
+      a.my_map
+    end
+  end
+
+  it 'standard output with #my_count with no code block' do
+    original_output = capture_stdout(&original_method_1)
+    expect(&my_method_1).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_count with no code block' do
+    expect(my_method_1.call).to eql(original_method_1.call)
+  end
+
+  it 'standard output with #my_count with no code block' do
+    original_output = capture_stdout(&original_method_2)
+    expect(&my_method_2).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_count with no code block' do
+    expect(my_method_2.call).to eql(original_method_2.call)
+  end
+
+  it 'standard output with #my_count with no code block' do
+    original_output = capture_stdout(&original_method_3)
+    expect(&my_method_3).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_count with no code block' do
+    expect(my_method_3.call).to eql(original_method_3.call)
+  end
+
+  #   (1..4).map { |i| i*i }      #=> [1, 4, 9, 16]
+# (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
   end
 end
