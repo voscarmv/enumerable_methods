@@ -323,12 +323,12 @@ RSpec.describe Enumerable do
     let(:c) { %i[foo bar] }
     let(:original_method_3) do
       proc do
-        c.select { |i| i % 3 == 0 }
+        c.select { |x| x == :foo } 
       end
     end
     let(:my_method_3) do
       proc do
-        c.my_select { |i| i % 3 == 0 }
+        c.my_select { |x| x == :foo } 
       end
     end
 
