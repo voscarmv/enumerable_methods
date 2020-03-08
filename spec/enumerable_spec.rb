@@ -530,70 +530,65 @@ RSpec.describe Enumerable do
     end
   end
   describe '#my_count' do
-  let(:a) { [1, 2, 4, 2] }
-  let(:original_method_1) do
-    proc do
-      a.count
+    let(:a) { [1, 2, 4, 2] }
+    let(:original_method_1) do
+      proc do
+        a.count
+      end
     end
-  end
-  let(:my_method_1) do
-    proc do
-      a.my_count
+    let(:my_method_1) do
+      proc do
+        a.my_count
+      end
     end
-  end
 
-  let(:original_method_2) do
-    proc do
-      a.count(2)
+    let(:original_method_2) do
+      proc do
+        a.count(2)
+      end
     end
-  end
-  let(:my_method_2) do
-    proc do
-      a.my_count(2)
+    let(:my_method_2) do
+      proc do
+        a.my_count(2)
+      end
     end
-  end
 
-  let(:original_method_3) do
-    proc do
-      a..count{ |x| x%2==0 }
+    let(:original_method_3) do
+      proc do
+        a.count(&:even?)
+      end
     end
-  end
-  let(:my_method_3) do
-    proc do
-      a.my_count{ |x| x%2==0 }
+    let(:my_method_3) do
+      proc do
+        a.my_count(&:even?)
+      end
     end
-  end
 
-  it 'standard output with #my_count with no code block' do
-    original_output = capture_stdout(&original_method_1)
-    expect(&my_method_1).to output(original_output).to_stdout
-  end
+    it 'standard output with #my_count with no code block' do
+      original_output = capture_stdout(&original_method_1)
+      expect(&my_method_1).to output(original_output).to_stdout
+    end
 
-  it 'return value of #my_count with no code block' do
-    expect(my_method_1.call).to eql(original_method_1.call)
-  end
+    it 'return value of #my_count with no code block' do
+      expect(my_method_1.call).to eql(original_method_1.call)
+    end
 
-  it 'standard output with #my_count with parameter' do
-    original_output = capture_stdout(&original_method_2)
-    expect(&my_method_2).to output(original_output).to_stdout
-  end
+    it 'standard output with #my_count with parameter' do
+      original_output = capture_stdout(&original_method_2)
+      expect(&my_method_2).to output(original_output).to_stdout
+    end
 
-  it 'return value of #my_count with parameter' do
-    expect(my_method_2.call).to eql(original_method_2.call)
-  end
-  
-  it 'standard output with #my_count with code block' do
-    original_output = capture_stdout(&original_method_3)
-    expect(&my_method_3).to output(original_output).to_stdout
-  end
+    it 'return value of #my_count with parameter' do
+      expect(my_method_2.call).to eql(original_method_2.call)
+    end
 
-  it 'return value of #my_count with code block' do
-    expect(my_method_3.call).to eql(original_method_3.call)
-  end
+    it 'standard output with #my_count with code block' do
+      original_output = capture_stdout(&original_method_3)
+      expect(&my_method_3).to output(original_output).to_stdout
+    end
 
-#   ary = [1, 2, 4, 2]
-# ary.count               #=> 4
-# ary.count(2)            #=> 2
-# ary.count{ |x| x%2==0 } #=> 3
+    it 'return value of #my_count with code block' do
+      expect(my_method_3.call).to eql(original_method_3.call)
+    end
   end
 end
