@@ -311,24 +311,24 @@ RSpec.describe Enumerable do
     let(:b) { [1, 2, 3, 4, 5] }
     let(:original_method_2) do
       proc do
-        a.select { |num| num.even? }
+        b.select { |num| num.even? }
       end
     end
     let(:my_method_2) do
       proc do
-        a.my_select { |num| num.even? }
+        b.my_select { |num| num.even? }
       end
     end
 
     let(:c) { %i[foo bar] }
     let(:original_method_3) do
       proc do
-        a.select { |i| i % 3 == 0 }
+        c.select { |i| i % 3 == 0 }
       end
     end
     let(:my_method_3) do
       proc do
-        a.my_select { |i| i % 3 == 0 }
+        c.my_select { |i| i % 3 == 0 }
       end
     end
 
