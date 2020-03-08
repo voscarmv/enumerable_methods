@@ -184,12 +184,6 @@ RSpec.describe Enumerable do
       end
       expect(my_hash).to eql(original_hash)
     end
-
-    #   hash = Hash.new
-    # %w(cat dog wombat).each_with_index { |item, index|
-    #   hash[item] = index
-    # }
-    # hash   #=> {"cat"=>0, "dog"=>1, "wombat"=>2}
   end
 
   describe '#my_any' do
@@ -299,6 +293,70 @@ RSpec.describe Enumerable do
 
     it 'return value of #my_any? with with no block and empty array' do
       expect(my_method_5.call).to eql(original_method_5.call)
+    end
+  end
+  describe '#my_select' do
+    let(:a) { (1..10) }
+    let(:original_method_1) do
+      proc do
+        a.select { |i| i % 3 == 0 }
+      end
+    end
+    let(:my_method_1) do
+      proc do
+        a.my_select { |i| i % 3 == 0 }
+      end
+    end
+
+    let(:b) { [1, 2, 3, 4, 5] }
+    let(:original_method_2) do
+      proc do
+        a.select { |num| num.even? }
+      end
+    end
+    let(:my_method_2) do
+      proc do
+        a.my_select { |num| num.even? }
+      end
+    end
+
+    let(:c) { %i[foo bar] }
+    let(:original_method_3) do
+      proc do
+        a.select { |i| i % 3 == 0 }
+      end
+    end
+    let(:my_method_3) do
+      proc do
+        a.my_select { |i| i % 3 == 0 }
+      end
+    end
+
+    it 'standard output with #my_select with range' do
+      original_output = capture_stdout(&original_method_1)
+      expect(&my_method_1).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_select with range' do
+      expect(my_method_1.call).to eql(original_method_1.call)
+    end
+
+    it 'standard output with #my_select with array' do
+      original_output = capture_stdout(&original_method_2)
+      expect(&my_method_2).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_select with array' do
+      expect(my_method_2.call).to eql(original_method_2.call)
+    end
+
+    it 'standard output with #my_select with symbol array' do
+      original_output = capture_stdout(&original_method_3)
+      expect(&my_method_3).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_select with symbol array' do
+      expect(my_method_3.call).to eql(original_method_3.call)
     end
   end
 end
