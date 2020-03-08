@@ -379,4 +379,164 @@ RSpec.describe Enumerable do
       expect(my_method_3.call).to eql(original_method_3.call)
     end
   end
+
+  describe "#my_none?" do
+  let(:a) { %w[ant bear cat] }
+  let(:original_method_1) do
+    proc do
+      a.none? { |word| word.length == 5 }
+    end
+  end
+  let(:my_method_1) do
+    proc do
+      a.my_none? { |word| word.length == 5 }
+    end
+  end
+
+  let(:regex) do
+    /d/
+  end
+
+  let(:original_method_2) do
+    proc do
+      a.none? regex
+    end
+  end
+  let(:my_method_2) do
+    proc do
+      a.my_none? regex
+    end
+  end
+
+  let(:b) { [1, 3.14, 42] }
+  let(:original_method_3) do
+    proc do
+      b.none? (Float)  
+    end
+  end
+  let(:my_method_3) do
+    proc do
+      b.my_none? (Float)  
+    end
+  end
+
+  let(:c) { [] }
+  let(:original_method_4) do
+    proc do
+      c.none?
+    end
+  end
+  let(:my_method_4) do
+    proc do
+      c.my_none?
+    end
+  end
+
+  let(:d) { [nil] }
+  let(:original_method_5) do
+    proc do
+      d.none?
+    end
+  end
+  let(:my_method_5) do
+    proc do
+      d.my_none?
+    end
+  end
+
+  let(:e) { [nil, false] }
+  let(:original_method_6) do
+    proc do
+      e.none?
+    end
+  end
+  let(:my_method_6) do
+    proc do
+      e.my_none?
+    end
+  end
+
+  let(:f) { [nil, false, true] }
+  let(:original_method_7) do
+    proc do
+      f.none?
+    end
+  end
+  let(:my_method_7) do
+    proc do
+      f.my_none?
+    end
+  end
+
+  it 'standard output with #my_none? with code block' do
+    original_output = capture_stdout(&original_method_1)
+    expect(&my_method_1).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_none? with code block' do
+    expect(my_method_1.call).to eql(original_method_1.call)
+  end
+  
+  it 'standard output with #my_none? with a regular expresion parameter' do
+    original_output = capture_stdout(&original_method_2)
+    expect(&my_method_2).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_none? with a regular expresion parameter' do
+    expect(my_method_2.call).to eql(original_method_2.call)
+  end
+
+  it 'standard output with #my_none? with a Float class parameter' do
+  original_output = capture_stdout(&original_method_3)
+  expect(&my_method_3).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_none? with a Float class parameter' do
+    expect(my_method_3.call).to eql(original_method_3.call)
+  end
+
+  it 'standard output with #my_none? with no block and empty array' do
+    original_output = capture_stdout(&original_method_4)
+    expect(&my_method_4).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_none? with with no block and empty array' do
+    expect(my_method_4.call).to eql(original_method_4.call)
+  end
+
+  it 'standard output with #my_none? with no block and nil array' do
+  original_output = capture_stdout(&original_method_5)
+  expect(&my_method_5).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_none? with with no block and nil array' do
+    expect(my_method_5.call).to eql(original_method_5.call)
+  end
+
+  it 'standard output with #my_none? with no block and nil false array' do
+  original_output = capture_stdout(&original_method_6)
+  expect(&my_method_6).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_none? with with no block and nil false array' do
+    expect(my_method_6.call).to eql(original_method_6.call)
+  end
+
+  it 'standard output with #my_none? with no block and nil boolean array' do
+  original_output = capture_stdout(&original_method_7)
+  expect(&my_method_7).to output(original_output).to_stdout
+  end
+
+  it 'return value of #my_none? with with no block and nil boolean array' do
+    expect(my_method_7.call).to eql(original_method_7.call)
+  end
+  end
+
+#%w{ant bear cat}.none? { |word| word.length == 5 } #=> true
+#%w{ant bear cat}.none?(/d/)                        #=> true
+#[1, 3.14, 42].none?(Float)                         #=> false
+#[].none?                                           #=> true
+#[nil].none?                                        #=> true
+#[nil, false].none?                                 #=> true
+#[nil, false, true].none? 
 end
