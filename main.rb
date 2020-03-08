@@ -43,6 +43,7 @@ module Enumerable
       (0..length - 1).my_each do |i|
         yield(self[i], i)
       end
+      self
     else
       to_enum
     end
