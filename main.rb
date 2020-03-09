@@ -19,8 +19,9 @@ module Enumerable
         yield(arr[i])
         i += 1
       end
+      self
     else
-      arr.to_enum
+      arr.to_enum :each
     end
   end
 
@@ -33,7 +34,7 @@ module Enumerable
         i += 1
       end
     else
-      arr.to_enum
+      arr.to_enum :each
     end
   end
 
@@ -42,8 +43,9 @@ module Enumerable
       (0..length - 1).my_each do |i|
         yield(self[i], i)
       end
+      self
     else
-      to_enum
+      to_enum :each_with_index
     end
   end
 
@@ -54,7 +56,7 @@ module Enumerable
       arr.my_each { |i| output << i if yield(i) }
       output
     else
-      arr.to_enum
+      arr.to_enum :select
     end
   end
 
@@ -142,7 +144,7 @@ module Enumerable
       arr.my_each { |i| output << yield(i) }
       output
     else
-      arr.to_enum
+      to_enum :map
     end
   end
 
@@ -230,5 +232,3 @@ each_output = my_each_output.dup
 my_each_output = ' '
 array.my_each_with_index(&block)
 my_each_output == each_output # true
-=======
-puts 'Hello, World!'
