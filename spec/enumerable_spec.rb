@@ -1,5 +1,5 @@
 # spec/enumerable_spec.rb
-require './main.rb'
+require_relative '../main.rb'
 
 def capture_stdout
   original = $stdout
