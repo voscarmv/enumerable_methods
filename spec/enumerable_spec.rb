@@ -613,68 +613,173 @@ RSpec.describe Enumerable do
     end
   end
   describe '#my_map' do
-  let(:a) { (1..4) }
-  let(:original_method_1) do
-    proc do
-      a.map { |i| i*i }
+    let(:a) { (1..4) }
+    let(:original_method_1) do
+      proc do
+        a.map { |i| i*i }
+      end
+    end
+    let(:my_method_1) do
+      proc do
+        a.my_map { |i| i*i }
+      end
+    end
+
+    let(:original_method_2) do
+      proc do
+        a.map { "cat"  }
+      end
+    end
+    let(:my_method_2) do
+      proc do
+        a.my_map { "cat"  }
+      end
+    end
+
+    let(:original_method_3) do
+      proc do
+        a.map
+      end
+    end
+    let(:my_method_3) do
+      proc do
+        a.my_map
+      end
+    end
+
+    it 'standard output with #my_count with no code block' do
+      original_output = capture_stdout(&original_method_1)
+      expect(&my_method_1).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_count with no code block' do
+      expect(my_method_1.call).to eql(original_method_1.call)
+    end
+
+    it 'standard output with #my_count with no code block' do
+      original_output = capture_stdout(&original_method_2)
+      expect(&my_method_2).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_count with no code block' do
+      expect(my_method_2.call).to eql(original_method_2.call)
+    end
+
+    it 'standard output with #my_count with no code block' do
+      original_output = capture_stdout(&original_method_3)
+      expect(&my_method_3).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_count with no code block' do
+      expect(my_method_3.call).to eql(original_method_3.call)
     end
   end
-  let(:my_method_1) do
-    proc do
-      a.my_map { |i| i*i }
+  describe '#my_inject' do
+    let(:a) { (5..10) }
+    let(:original_method_1) do
+      proc do
+        a.inject (:+)
+      end
+    end
+    let(:my_method_1) do
+      proc do
+        a.my_inject (:+)
+      end
+    end
+
+    let(:original_method_2) do
+      proc do
+        a.inject { |sum, n| sum + n } 
+      end
+    end
+    let(:my_method_2) do
+      proc do
+        a.my_inject { |sum, n| sum + n } 
+      end
+    end
+
+    let(:original_method_3) do
+      proc do
+        a.inject(1, :*)
+      end
+    end
+    let(:my_method_3) do
+      proc do
+        a.my_inject(1, :*)
+      end
+    end
+
+    let(:original_method_4) do
+      proc do
+        a.inject(1) { |product, n| product * n }
+      end
+    end
+    let(:my_method_4) do
+      proc do
+        a.my_inject(1) { |product, n| product * n }
+      end
+    end
+
+    let(:longest) { %w{ cat sheep bear } }
+    let(:original_method_5) do
+      proc do
+        longest.inject do |memo, word|
+          memo.length > word.length ? memo : word
+       end
+      end
+    end
+    let(:my_method_5) do
+      proc do
+        longest.my_inject do |memo, word|
+          memo.length > word.length ? memo : word
+        end
+      end
+    end
+
+    it 'standard output with #my_inject with a symbol' do
+      original_output = capture_stdout(&original_method_1)
+      expect(&my_method_1).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_inject with a symbol' do
+      expect(my_method_1.call).to eql(original_method_1.call)
+    end
+
+    it 'standard output with #my_inject with a block' do
+      original_output = capture_stdout(&original_method_2)
+      expect(&my_method_2).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_inject with a block' do
+      expect(my_method_2.call).to eql(original_method_2.call)
+    end
+
+    it 'standard output with #my_inject with an argument and a symbol' do
+      original_output = capture_stdout(&original_method_3)
+      expect(&my_method_3).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_inject with an argument and a symbol' do
+      expect(my_method_3.call).to eql(original_method_3.call)
+    end
+
+    it 'standard output with #my_inject with an argument and a block' do
+      original_output = capture_stdout(&original_method_4)
+      expect(&my_method_4).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_inject with an argument and a block' do
+      expect(my_method_4.call).to eql(original_method_4.call)
+    end
+
+    it 'standard output with #my_inject with an array and a block' do
+      original_output = capture_stdout(&original_method_5)
+      expect(&my_method_5).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_inject with an array and a block' do
+      expect(my_method_5.call).to eql(original_method_5.call)
     end
   end
 
-  let(:original_method_2) do
-    proc do
-      a.map { "cat"  }
-    end
-  end
-  let(:my_method_2) do
-    proc do
-      a.my_map { "cat"  }
-    end
-  end
-
-  let(:original_method_3) do
-    proc do
-      a.map
-    end
-  end
-  let(:my_method_3) do
-    proc do
-      a.my_map
-    end
-  end
-
-  it 'standard output with #my_count with no code block' do
-    original_output = capture_stdout(&original_method_1)
-    expect(&my_method_1).to output(original_output).to_stdout
-  end
-
-  it 'return value of #my_count with no code block' do
-    expect(my_method_1.call).to eql(original_method_1.call)
-  end
-
-  it 'standard output with #my_count with no code block' do
-    original_output = capture_stdout(&original_method_2)
-    expect(&my_method_2).to output(original_output).to_stdout
-  end
-
-  it 'return value of #my_count with no code block' do
-    expect(my_method_2.call).to eql(original_method_2.call)
-  end
-
-  it 'standard output with #my_count with no code block' do
-    original_output = capture_stdout(&original_method_3)
-    expect(&my_method_3).to output(original_output).to_stdout
-  end
-
-  it 'return value of #my_count with no code block' do
-    expect(my_method_3.call).to eql(original_method_3.call)
-  end
-
-  #   (1..4).map { |i| i*i }      #=> [1, 4, 9, 16]
-# (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
-  end
 end
