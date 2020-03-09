@@ -24,6 +24,17 @@ RSpec.describe Enumerable do
       end
     end
 
+    let(:original_method_2) do
+      proc do
+        a.each
+      end
+    end
+    let(:my_method_2) do
+      proc do
+        a.my_each
+      end
+    end
+
     it 'standard output of #my_each with code block' do
       original_output = capture_stdout(&original_method_1)
       expect(&my_method_1).to output(original_output).to_stdout
@@ -32,9 +43,15 @@ RSpec.describe Enumerable do
     it 'return value of #my_each with code block' do
       expect(my_method_1.call).to eql(original_method_1.call)
     end
-    # it 'standard output of #my_each without code block' do
 
-    # end
+    it 'standard output of #my_each with no block' do
+      original_output = capture_stdout(&original_method_2)
+      expect(&my_method_2).to output(original_output).to_stdout
+    end
+
+    it 'return value of #my_each with no block' do
+      expect(my_method_2.call.inspect).to eql(original_method_2.call.inspect)
+    end
   end
   describe '#my_all?' do
     let(:a) { %w[ant bear cat] }
@@ -166,15 +183,15 @@ RSpec.describe Enumerable do
 
     let(:original_method_2) do
       proc do
-        a.each_with_index 
+        a.each_with_index
       end
     end
     let(:my_method_2) do
       proc do
-        a.my_each_with_index 
+        a.my_each_with_index
       end
     end
-    
+
     it 'standard output with #my_each_with_index' do
       original_output = capture_stdout(&original_method_1)
       expect(&my_method_1).to output(original_output).to_stdout
@@ -187,12 +204,6 @@ RSpec.describe Enumerable do
     it 'hash value for #my_each_with_index' do
       original_method_1.call
       my_method_1.call
-      original_hash.each do |key, value|
-        puts key + ' : ' + value.to_s
-      end
-      my_hash.each do |key, value|
-        puts key + ' : ' + value.to_s
-      end
       expect(my_hash).to eql(original_hash)
     end
 
@@ -202,9 +213,8 @@ RSpec.describe Enumerable do
     end
 
     it 'return value of #my_each_with_index with no block' do
-      expect(my_method_2.call).to eql(original_method_2.call)
+      expect(my_method_2.call.inspect).to eql(original_method_2.call.inspect)
     end
-
   end
   describe '#my_any' do
     let(:a) { %w[ant bear cat] }
@@ -391,12 +401,12 @@ RSpec.describe Enumerable do
     end
 
     it 'standard output with #my_select without block' do
-      original_output = capture_stdout(&original_method_3)
-      expect(&my_method_3).to output(original_output).to_stdout
+      original_output = capture_stdout(&original_method_4)
+      expect(&my_method_4).to output(original_output).to_stdout
     end
 
     it 'return value of #my_select without block' do
-      expect(my_method_3.call).to eql(original_method_3.call)
+      expect(my_method_4.call.inspect).to eql(original_method_4.call.inspect)
     end
   end
   describe '#my_none?' do
@@ -616,23 +626,23 @@ RSpec.describe Enumerable do
     let(:a) { (1..4) }
     let(:original_method_1) do
       proc do
-        a.map { |i| i*i }
+        a.map { |i| i * i }
       end
     end
     let(:my_method_1) do
       proc do
-        a.my_map { |i| i*i }
+        a.my_map { |i| i * i }
       end
     end
 
     let(:original_method_2) do
       proc do
-        a.map { "cat"  }
+        a.map { 'cat' }
       end
     end
     let(:my_method_2) do
       proc do
-        a.my_map { "cat"  }
+        a.my_map { 'cat' }
       end
     end
 
@@ -647,54 +657,54 @@ RSpec.describe Enumerable do
       end
     end
 
-    it 'standard output with #my_count with no code block' do
+    it 'standard output with #my_map with no code block' do
       original_output = capture_stdout(&original_method_1)
       expect(&my_method_1).to output(original_output).to_stdout
     end
 
-    it 'return value of #my_count with no code block' do
+    it 'return value of #my_map with no code block' do
       expect(my_method_1.call).to eql(original_method_1.call)
     end
 
-    it 'standard output with #my_count with no code block' do
+    it 'standard output with #my_map with no code block' do
       original_output = capture_stdout(&original_method_2)
       expect(&my_method_2).to output(original_output).to_stdout
     end
 
-    it 'return value of #my_count with no code block' do
+    it 'return value of #my_map with no code block' do
       expect(my_method_2.call).to eql(original_method_2.call)
     end
 
-    it 'standard output with #my_count with no code block' do
+    it 'standard output with #my_map with no code block' do
       original_output = capture_stdout(&original_method_3)
       expect(&my_method_3).to output(original_output).to_stdout
     end
 
     it 'return value of #my_count with no code block' do
-      expect(my_method_3.call).to eql(original_method_3.call)
+      expect(my_method_3.call.inspect).to eql(original_method_3.call.inspect)
     end
   end
   describe '#my_inject' do
     let(:a) { (5..10) }
     let(:original_method_1) do
       proc do
-        a.inject (:+)
+        a.inject :+
       end
     end
     let(:my_method_1) do
       proc do
-        a.my_inject (:+)
+        a.my_inject :+
       end
     end
 
     let(:original_method_2) do
       proc do
-        a.inject { |sum, n| sum + n } 
+        a.inject { |sum, n| sum + n }
       end
     end
     let(:my_method_2) do
       proc do
-        a.my_inject { |sum, n| sum + n } 
+        a.my_inject { |sum, n| sum + n }
       end
     end
 
@@ -720,12 +730,12 @@ RSpec.describe Enumerable do
       end
     end
 
-    let(:longest) { %w{ cat sheep bear } }
+    let(:longest) { %w[cat sheep bear] }
     let(:original_method_5) do
       proc do
         longest.inject do |memo, word|
           memo.length > word.length ? memo : word
-       end
+        end
       end
     end
     let(:my_method_5) do
@@ -781,5 +791,4 @@ RSpec.describe Enumerable do
       expect(my_method_5.call).to eql(original_method_5.call)
     end
   end
-
 end

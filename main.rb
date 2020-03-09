@@ -21,7 +21,7 @@ module Enumerable
       end
       self
     else
-      arr.to_enum
+      arr.to_enum :each
     end
   end
 
@@ -34,7 +34,7 @@ module Enumerable
         i += 1
       end
     else
-      arr.to_enum
+      arr.to_enum :each
     end
   end
 
@@ -56,7 +56,7 @@ module Enumerable
       arr.my_each { |i| output << i if yield(i) }
       output
     else
-      arr.to_enum
+      arr.to_enum :select
     end
   end
 
@@ -144,7 +144,7 @@ module Enumerable
       arr.my_each { |i| output << yield(i) }
       output
     else
-      self.to_enum
+      to_enum :map
     end
   end
 
