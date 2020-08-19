@@ -2,6 +2,8 @@
 
 > A replication of the original Enumerable methods #each, #each_with_index, #select, #all?, #none?, #count, #map and #inject using only Ruby.
 
+![image](https://user-images.githubusercontent.com/2739245/90689036-026c0880-e235-11ea-9ab8-fb3adba9042f.png)
+
 ## Built With
 
 - Ruby
