@@ -4,6 +4,10 @@
 
 ![image](https://user-images.githubusercontent.com/2739245/90689036-026c0880-e235-11ea-9ab8-fb3adba9042f.png)
 
+![image](https://user-images.githubusercontent.com/2739245/90690259-013bdb00-e237-11ea-8052-5aeb13405688.png)
+
+The [`enumerable_spec.rb`](https://github.com/voscarmv/enumerable_methods/blob/master/spec/enumerable_spec.rb) tests use [an original output redirection method](https://github.com/voscarmv/enumerable_methods/blob/master/spec/enumerable_spec.rb#L4) to easily test `stdout` as well as `return` values from the functions.
+
 ## Built With
 
 - Ruby
